@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fireworks</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        * {
+            font-family: "Truculenta", sans-serif;
+        }
+
+        .pyro {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .message-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-size: 2rem;
+            color: white;
+            transition: opacity 1s ease;
+        }
+
+        .firework-burst {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--color);
+            animation: burst 3s ease-out forwards;
+        }
+
+        @keyframes burst {
+            0% {
+                transform: translate(0, 0) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(calc(var(--x) * 150px), calc(var(--y) * 150px)) scale(0.3);
+                opacity: 0;
+            }
+        }
+
+        .header-firework {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            background-color: white;
+            border-radius: 50%;
+            animation: header-spark 3s ease-in-out infinite;
+        }
+
+        @keyframes header-spark {
+            0% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(300px);
+            }
+        }
+
+        #main-section {
+            transition: background-color 4s ease;
+        }
+    </style>
+</head>
+
+<body class="flex flex-col">
+    <!-- Header Section -->
+    <header class="h-screen flex flex-col items-center justify-center gap-y-4 bg-slate-700 relative">
+        <div class="pyro" id="header-fireworks-container"></div>
+        <h1 class="text-4xl">Dear Sophia,</h1>
+        <h1 class="text-4xl">Ever since we met I have this spark in my life.</h1>
+        <h1 class="text-4xl">Getting together with you has been like fireworks.</h1>
+        <h1 class="text-4xl">As the year comes to an end and we enter the new one together,</h1>
+        <h1 class="text-4xl">I want to tell you that you're the best thing that happened to me in the past year..<span class="blinking-dot">.</span></h1>
+        <h1 class="text-4xl"><span class="blinking-dot">.</span>.. and probably my life</h1>
+    </header>
+
+    <!-- Main Section -->
+    <main class="h-screen flex flex-col bg-slate-600 relative" id="main-section">
+        <div class="pyro" id="main-fireworks-container"></div>
+        <div id="message-container" class="message-container"></div>
+    </main>
+
+    <footer class="h-screen flex flex-col bg-slate-500"></footer>
+
+    <script>
+        const messages = [
+            "You light up my world.",
+            "Your smile is the reason for my happiness.",
+            "Every moment with you feels like magic.",
+            "You are my everything.",
+            "I am so lucky to have you in my life.",
+            "With you, every day is a celebration.",
+            "You are my heart and soul.",
+            "I can't wait to create more memories with you.",
+        ];
+
+        const colors = [
+            "#300303", 
+            "#9c1753", 
+            "#56067a", 
+            "#8a5cf7", 
+            "#f75cc6", 
+            "#c40464", 
+        ];
+
+        let currentMessageIndex = 0;
+        let currentColorIndex = 0;
+
+        function showNextMessageAndColor() {
+            const messageContainer = document.getElementById('message-container');
+            const mainSection = document.getElementById('main-section');
+            const color = colors[currentColorIndex];
+
+            // Update the background color and message
+            mainSection.style.backgroundColor = color;
+            messageContainer.innerText = messages[currentMessageIndex];
+
+            // Cycle through the colors and messages
+            currentColorIndex = (currentColorIndex + 1) % colors.length;
+            currentMessageIndex = (currentMessageIndex + 1) % messages.length;
+        }
+
+        function createMainFirework() {
+            const container = document.getElementById('main-fireworks-container');
+            const fireworkCenterX = Math.random() * window.innerWidth;
+            const fireworkCenterY = Math.random() * window.innerHeight;
+            const color = colors[currentColorIndex];
+
+            for (let i = 0; i < 30; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('firework-burst');
+                particle.style.left = `${fireworkCenterX}px`;
+                particle.style.top = `${fireworkCenterY}px`;
+                particle.style.setProperty('--x', Math.random() * 2 - 1);
+                particle.style.setProperty('--y', Math.random() * 2 - 1);
+                particle.style.setProperty('--color', color);
+
+                container.appendChild(particle);
+
+                particle.addEventListener('animationend', () => particle.remove());
+            }
+
+            showNextMessageAndColor();
+        }
+
+        // Initialize with the first color and message
+        showNextMessageAndColor();
+
+        // Fireworks every 5 seconds
+        setInterval(createMainFirework, 5000);
+    </script>
+</body>
+
+</html>

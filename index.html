@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fireworks</title>
+    <link rel="shortcut icon" href="fireworks.png" type="image/x-icon">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Birthstone&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@100..900&display=swap" rel="stylesheet">
+
+    <style>
+        *{
+            font-family: "Kumbh Sans", sans-serif;
+        }
+
+        .blinking-dot {
+            animation: blink 1s steps(1, end) infinite;
+        }
+
+        @keyframes blink {
+            0% { opacity: 1; }
+            50% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        .pyro {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        /* Firework burst animation for the main section */
+        .firework-burst {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--color);
+            animation: burst 3s ease-out forwards;
+        }
+
+        @keyframes burst {
+            0% {
+                transform: translate(0, 0) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(calc(var(--x) * 150px), calc(var(--y) * 150px)) scale(0.3);
+                opacity: 0;
+            }
+        }
+
+        /* Header spark effect */
+        .header-firework {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            background-color: white;
+            border-radius: 50%;
+            animation: header-spark 3s ease-in-out;
+            box-shadow: 0 0 15px 5px rgba(255, 255, 255, 0.8); /* Glowing effect */
+        }
+
+        @keyframes header-spark {
+            0% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(200px);
+            }
+        }
+
+        #main-section {
+            transition: background-color 4s ease;
+        }
+
+        .message-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-size: 2rem;
+            color: white;
+            transition: opacity 1s ease;
+        }
+
+        #signature{
+            font-family: "Birthstone", cursive;
+        }
+
+    </style>
+</head>
+
+<body class="flex flex-col">
+    <!-- Header Section -->
+    <header class="h-screen flex flex-col items-center justify-center gap-y-4 bg-pink-800  text-center">
+        <div class="pyro" id="header-fireworks-container"></div>
+        <h1 class="text-4xl">To My Beautiful Girl:</h1>
+        <h1 class="text-4xl">Dear Sophia,</h1>
+        <h1 class="text-4xl">Ever since we met I have this spark in my life.</h1>
+        <h1 class="text-4xl">Getting together with you has been like fireworks.</h1>
+        <h1 class="text-4xl">As the year comes to an end and we enter the new one together,</h1>
+        <h1 class="text-4xl">I want to tell you that you're the best thing that happened to me in the past year..<span class="blinking-dot">.</span></h1>
+        <h1 class="text-4xl"><span class="blinking-dot">.</span>.. and probably my life</h1>
+    </header>
+
+    <!-- Main Section -->
+    <main class="h-screen flex flex-col bg-slate-600 relative" id="main-section">
+        <div class="pyro" id="main-fireworks-container"></div>
+        <div id="message-container" class="message-container"></div>
+    </main>
+
+    <footer class="h-screen flex flex-col items-center justify-center gap-y-4 bg-pink-800 text-center">
+        <h1 class="text-4xl">Happy New Year My Love</h1>
+        <h1 class="text-4xl">I hope it's going to be a wonderful year for you.</h1>
+        <h1 class="text-4xl">A year where you achieve everything you pursue.</h1>
+        <h1 class="text-4xl">I want to be there for it all.</h1>
+        <h1 class="text-4xl">Right by your side.</h1>
+        <h1 class="text-4xl" id="signature">With Love, your Alexander.</h1>
+    </footer>
+        
+
+    <script>
+        const messages = [
+            "It's gonna be you and me.",
+            "I see you every time I close my eyes.",
+            "I see an entire universe as I drown in your eyes.",
+            "When I met you, flowers started growing in the darkest parts of my mind.",
+            "Heaven is a place on earth with you.",
+            "If I were a star, I would fall from the sky just to be closer to you.",
+            "Your heart is safe with me.",
+            "Each day I fall more and more in love with you. It's the most beautiful feeling.",
+            "The sun envies the fire you ignite in my soul.",
+            "I love you with every beat of my heart.",
+            "I'd choose you anytime without hesitation.",
+            "You are the constant in my plans for the future.",
+            "Any memory or experience with you is my favorite.",
+            "I want to start every year with you by my side from now on.",
+            "You are my favorite sniff.",
+            "You make me the happiest man alive.",
+            "I can't wait to travel the world with you. Hopefully we can do something this year :)",
+            "I try to weave the words to compliment you, but the yarn seems endless.",
+            "In your eyes i see the skies, it gives me butterflies. You are my life's greatest surprise.",
+            "You have the most beautiful soul. My heart longs for you like a fire longs for coal.",
+            "Any win of mine I see as a win of yours too. You are embedded into my being.",
+            "In every universe, I know I would choose you.",
+            "Every time I see you, my entire world lights up.",
+            "You are the perfect person in my eyes.",
+        ];
+
+        const colors = [
+            "#300303", 
+            "#9c1753", 
+            "#56067a", 
+            "#8a5cf7", 
+            "#f75cc6", 
+            "#c40464", 
+        ];
+
+        let currentMessageIndex = 0;
+        let currentColorIndex = 0;
+        let isSparkActive = false;  // Flag to track if the spark animation is still running
+
+        function showNextMessageAndColor() {
+            const messageContainer = document.getElementById('message-container');
+            const mainSection = document.getElementById('main-section');
+            const color = colors[currentColorIndex];
+
+            // Update the background color and message
+            mainSection.style.backgroundColor = color;
+            messageContainer.innerText = messages[currentMessageIndex];
+
+            // Cycle through the colors and messages
+            currentColorIndex = (currentColorIndex + 1) % colors.length;
+            currentMessageIndex = (currentMessageIndex + 1) % messages.length;
+        }
+
+        // Header Spark Effect (only one spark at a time)
+        function createHeaderFirework() {
+            if (isSparkActive) return;  // Prevent creating a new spark if the previous one is still animating
+
+            isSparkActive = true;
+
+            const container = document.getElementById('header-fireworks-container');
+            const spark = document.createElement('div');
+            spark.classList.add('header-firework');
+
+            // Randomize position within header
+            const headerHeight = container.parentElement.offsetHeight;
+            const headerWidth = container.parentElement.offsetWidth;
+            spark.style.left = `${Math.random() * headerWidth}px`;
+            spark.style.top = `${Math.random() * headerHeight / 2}px`; // Sparks stay in the upper half
+
+            container.appendChild(spark);
+
+            // Cleanup after animation ends and trigger the next spark
+            spark.addEventListener('animationend', () => {
+                spark.remove();
+                isSparkActive = false;
+                createHeaderFirework();  // Trigger the next spark
+            });
+        }
+
+        // Trigger the first spark and continue creating sparks
+        createHeaderFirework();
+
+        // Main Firework Burst Effect
+        function createMainFirework() {
+            const container = document.getElementById('main-fireworks-container');
+            const fireworkCenterX = Math.random() * window.innerWidth;
+            const fireworkCenterY = Math.random() * window.innerHeight;
+            const color = colors[currentColorIndex];
+
+            for (let i = 0; i < 30; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('firework-burst');
+                particle.style.left = `${fireworkCenterX}px`;
+                particle.style.top = `${fireworkCenterY}px`;
+                particle.style.setProperty('--x', Math.random() * 2 - 1); // Random x direction (-1 to 1)
+                particle.style.setProperty('--y', Math.random() * 2 - 1); // Random y direction (-1 to 1)
+                particle.style.setProperty('--color', color);
+
+                container.appendChild(particle);
+
+                // Cleanup after animation
+                particle.addEventListener('animationend', () => particle.remove());
+            }
+
+            showNextMessageAndColor();
+        }
+
+        setInterval(createMainFirework, 5000); // Fireworks every 5 seconds
+
+        // Initialize with the first color and message
+        showNextMessageAndColor();
+    </script>
+</body>
+
+</html>
